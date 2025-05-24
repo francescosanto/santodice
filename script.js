@@ -110,4 +110,39 @@ document.addEventListener('DOMContentLoaded', function() {
             activeCard = null;
         }
     });
+});
+
+// Funzione per gestire l'audio dei video
+function toggleAudio(control) {
+    const video = control.parentElement.querySelector('video');
+    const icon = control.querySelector('i');
+    
+    if (video.muted) {
+        video.muted = false;
+        icon.classList.remove('fa-volume-mute');
+        icon.classList.add('fa-volume-up');
+    } else {
+        video.muted = true;
+        icon.classList.remove('fa-volume-up');
+        icon.classList.add('fa-volume-mute');
+    }
+}
+
+// Gestione dei video nella sezione progetti
+document.addEventListener('DOMContentLoaded', function() {
+    const videoCards = document.querySelectorAll('.video-card');
+    
+    videoCards.forEach(card => {
+        const video = card.querySelector('video');
+        
+        // Pausa tutti gli altri video quando uno viene riprodotto
+        video.addEventListener('play', () => {
+            videoCards.forEach(otherCard => {
+                if (otherCard !== card) {
+                    const otherVideo = otherCard.querySelector('video');
+                    otherVideo.pause();
+                }
+            });
+        });
+    });
 }); 

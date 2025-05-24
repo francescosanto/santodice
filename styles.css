@@ -311,6 +311,7 @@ body {
     padding-top: 56.25%; /* Aspect ratio 16:9 */
     background-color: #000;
     overflow: hidden;
+    max-height: 300px; /* Limito l'altezza massima */
 }
 
 .video-container video {
@@ -331,6 +332,8 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    max-width: 400px; /* Limito la larghezza massima */
+    margin: 0 auto; /* Centra il riquadro */
 }
 
 .video-card:hover {
@@ -374,18 +377,18 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2;
-    transition: all 0.3s ease;
-}
-
-.audio-control i {
-    color: var(--accent-color);
-    font-size: 1.2rem;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .audio-control:hover {
     background-color: rgba(0, 0, 0, 0.8);
     transform: scale(1.1);
+}
+
+.audio-control i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
 }
 
 .project-info {
