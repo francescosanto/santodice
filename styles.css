@@ -311,7 +311,6 @@ body {
     padding-top: 56.25%; /* Aspect ratio 16:9 */
     background-color: #000;
     overflow: hidden;
-    max-height: 300px; /* Limito l'altezza massima */
 }
 
 .video-container video {
@@ -332,8 +331,6 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    max-width: 400px; /* Limito la larghezza massima */
-    margin: 0 auto; /* Centra il riquadro */
 }
 
 .video-card:hover {
