@@ -1,0 +1,722 @@
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #2d2d2d;
+    --accent-color: #FFD700;
+    --text-color: #ffffff;
+    --text-secondary: #b3b3b3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background-color: rgba(26, 26, 26, 0.95);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.hero-content {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 4px;
+    color: var(--accent-color);
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Rimuovo le classi di animazione */
+.hero.scrolled .hero-background,
+.hero.scrolled .hero-content,
+.hero.scrolled h1,
+.hero.scrolled p {
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 0 2rem;
+    }
+}
+
+/* Services Section */
+.services {
+    padding: 5rem 2rem;
+    background-color: var(--secondary-color);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    visibility: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.services.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.services h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.service-card {
+    background-color: var(--primary-color);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.service-card i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.service-card:hover i {
+    transform: scale(1.1);
+    text-shadow: 0 0 15px var(--accent-color);
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.service-card:hover::before {
+    transform: translateX(100%);
+}
+
+.service-card h3 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.service-card p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.service-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    padding: 2rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.service-card.active .service-details {
+    transform: translateY(0);
+}
+
+.service-content {
+    color: var(--text-color);
+    text-align: left;
+}
+
+.service-card.active {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.service-card.active:hover {
+    transform: scale(1.05);
+}
+
+/* Projects Section */
+.projects {
+    padding: 5rem 2rem;
+    background-color: var(--primary-color);
+}
+
+.projects h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-card {
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Album Card Styles */
+.album-card {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.album-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.album-card:hover img {
+    transform: scale(1.05);
+}
+
+.album-card .project-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.album-card .spotify-link {
+    margin-top: auto;
+    padding: 0.5rem 0;
+}
+
+/* Video Card Styles */
+.video-card {
+    position: relative;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.audio-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.audio-control i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.audio-control:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.video-card video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px 10px 0 0;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover video {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.video-card .project-info {
+    position: relative;
+    background: var(--secondary-color);
+    padding: 1rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .project-info {
+    background: rgba(45, 45, 45, 0.9);
+}
+
+.video-card .project-info h3 {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.video-card .project-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.project-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.project-info h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-info p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.spotify-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1DB954;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.spotify-link:hover {
+    color: #1ed760;
+}
+
+.spotify-link i {
+    font-size: 1.2rem;
+}
+
+/* Spotify Card Styles */
+.spotify-card {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .album-card img {
+        height: 250px;
+    }
+}
+
+/* Contact Section */
+.contact {
+    padding: 5rem 2rem;
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
+.contact h2 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.contact-info {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-info p {
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+}
+
+.contact-info a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: #ffed4a;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-links a {
+    color: var(--text-color);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.social-links a[title="Instagram"]:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.social-links a[title="TikTok"]:hover {
+    background: #000000;
+}
+
+.social-links a[title="Spotify"]:hover {
+    background: #1DB954;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+    }
+}
+
+/* Studio Section */
+.studio {
+    padding: 5rem 2rem;
+    background-color: var(--primary-color);
+}
+
+.studio h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.studio-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.studio-info {
+    color: var(--text-color);
+}
+
+.studio-info h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.studio-info p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.studio-info ul {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.studio-info ul li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.studio-info ul li::before {
+    content: "•";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+}
+
+.contact-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Carousel Styles */
+.studio-carousel {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-container {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    width: 25%;
+    height: 100%;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-button.prev {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.carousel-button.next {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
+
+@media (max-width: 768px) {
+    .studio-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .studio-carousel {
+        height: 300px;
+    }
+}
+
+/* Coming Soon Card */
+.coming-soon {
+    background-color: var(--secondary-color);
+    border: 2px dashed var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    transition: all 0.3s ease;
+}
+
+.coming-soon:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-style: solid;
+}
+
+.coming-soon-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+.coming-soon-content i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+.coming-soon-content h3 {
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.coming-soon-content p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} 
