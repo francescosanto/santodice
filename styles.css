@@ -305,6 +305,23 @@ body {
 }
 
 /* Video Card Styles */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Aspect ratio 16:9 */
+    background-color: #000;
+    overflow: hidden;
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .video-card {
     position: relative;
     background-color: var(--secondary-color);
@@ -316,20 +333,33 @@ body {
     flex-direction: column;
 }
 
-.video-container {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* Aspect ratio 16:9 */
-    background-color: #000;
+.video-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+.video-card .project-info {
+    position: relative;
+    background: var(--secondary-color);
+    padding: 1rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .project-info {
+    background: rgba(45, 45, 45, 0.9);
+}
+
+.video-card .project-info h3 {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.video-card .project-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .audio-control {
@@ -356,30 +386,6 @@ body {
 .audio-control:hover {
     background-color: rgba(0, 0, 0, 0.8);
     transform: scale(1.1);
-}
-
-.video-card .project-info {
-    position: relative;
-    background: var(--secondary-color);
-    padding: 1rem;
-    color: var(--text-color);
-    transition: all 0.3s ease;
-}
-
-.video-card:hover .project-info {
-    background: rgba(45, 45, 45, 0.9);
-}
-
-.video-card .project-info h3 {
-    color: var(--accent-color);
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
-}
-
-.video-card .project-info p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin: 0;
 }
 
 .project-info {
