@@ -1,0 +1,19 @@
+# Ignora i file video
+*.mp4
+*.mov
+*.avi
+
+# Ignora i file audio
+*.mp3
+*.wav
+*.m4a
+
+# Ignora le immagini pesanti
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Ignora le cartelle con contenuti pesanti
+Immagini/
+Esempio/ 
