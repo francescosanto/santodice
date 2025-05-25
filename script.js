@@ -112,37 +112,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Funzione per gestire l'audio dei video
-function toggleAudio(control) {
-    const video = control.parentElement.querySelector('video');
-    const icon = control.querySelector('i');
-    
-    if (video.muted) {
-        video.muted = false;
-        icon.classList.remove('fa-volume-mute');
-        icon.classList.add('fa-volume-up');
-    } else {
-        video.muted = true;
-        icon.classList.remove('fa-volume-up');
-        icon.classList.add('fa-volume-mute');
-    }
-}
-
 // Gestione dei video nella sezione progetti
 document.addEventListener('DOMContentLoaded', function() {
     const videoCards = document.querySelectorAll('.video-card');
+    let activeVideo = null;
     
     videoCards.forEach(card => {
-        const video = card.querySelector('video');
+        const iframe = card.querySelector('iframe');
         
-        // Pausa tutti gli altri video quando uno viene riprodotto
-        video.addEventListener('play', () => {
-            videoCards.forEach(otherCard => {
-                if (otherCard !== card) {
-                    const otherVideo = otherCard.querySelector('video');
-                    otherVideo.pause();
-                }
-            });
+        // Aggiungi l'evento click alla card
+        card.addEventListener('click', () => {
+            // Se c'è già un video attivo e non è quello cliccato
+            if (activeVideo && activeVideo !== iframe) {
+                // Metti in pausa il video attivo precedente
+                activeVideo.contentWindow.postMessage('pause', '*');
+            }
+            
+            // Se il video cliccato è già attivo, mettilo in pausa
+            if (activeVideo === iframe) {
+                iframe.contentWindow.postMessage('pause', '*');
+                activeVideo = null;
+            } else {
+                // Altrimenti, riproduci il nuovo video
+                iframe.contentWindow.postMessage('play', '*');
+                activeVideo = iframe;
+            }
+        });
+        
+        // Gestisci il messaggio di fine riproduzione
+        window.addEventListener('message', (event) => {
+            if (event.data === 'ended' && event.source === iframe.contentWindow) {
+                activeVideo = null;
+            }
         });
     });
 }); 
