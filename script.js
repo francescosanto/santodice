@@ -92,33 +92,32 @@ document.addEventListener('DOMContentLoaded', function() {
 // Gestione delle card dei servizi
 document.addEventListener('DOMContentLoaded', function() {
     const serviceCards = document.querySelectorAll('.service-card');
-    let activeCard = null;
-
+    // Disabilito la possibilità di cliccare sulle card dei servizi
     serviceCards.forEach(card => {
-        card.addEventListener('click', () => {
-            // Se c'è già una card attiva e non è quella cliccata
-            if (activeCard && activeCard !== card) {
-                activeCard.classList.remove('active');
-            }
-
-            // Toggle della card cliccata
-            card.classList.toggle('active');
-            activeCard = card.classList.contains('active') ? card : null;
-
-            // Se la card è attiva, scrolla fino ad essa
-            if (card.classList.contains('active')) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
+        card.style.pointerEvents = 'none';
+        card.style.opacity = '0.7'; // Opzionale: effetto visivo per mostrare che sono disabilitate
+        card.style.cursor = 'not-allowed';
     });
-
-    // Chiudi la card attiva quando si clicca fuori
-    document.addEventListener('click', (e) => {
-        if (activeCard && !activeCard.contains(e.target)) {
-            activeCard.classList.remove('active');
-            activeCard = null;
-        }
-    });
+    // Rimuovo tutta la logica di click
+    // let activeCard = null;
+    // serviceCards.forEach(card => {
+    //     card.addEventListener('click', () => {
+    //         if (activeCard && activeCard !== card) {
+    //             activeCard.classList.remove('active');
+    //         }
+    //         card.classList.toggle('active');
+    //         activeCard = card.classList.contains('active') ? card : null;
+    //         if (card.classList.contains('active')) {
+    //             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //         }
+    //     });
+    // });
+    // document.addEventListener('click', (e) => {
+    //     if (activeCard && !activeCard.contains(e.target)) {
+    //         activeCard.classList.remove('active');
+    //         activeCard = null;
+    //     }
+    // });
 });
 
 // Gestione dei video nella sezione progetti
