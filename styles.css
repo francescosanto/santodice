@@ -5,6 +5,34 @@
     --text-color: #ffffff;
     --text-secondary: #b3b3b3;
 }
+.bg-secondary-color { background-color: var(--secondary-color); }
+.text-accent-color { color: var(--accent-color); }
+.text-primary-color { color: var(--primary-color); }
+.bg-accent-color { background-color: var(--accent-color); }
+
+/* Equalizer animato per stato di riproduzione */
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+  margin: 0 auto;
+}
+.equalizer-bar {
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent-color), #fffbe6 80%);
+  border-radius: 2px;
+  animation: equalize 1s infinite;
+}
+.equalizer-bar:nth-child(1) { animation-delay: 0s; }
+.equalizer-bar:nth-child(2) { animation-delay: 0.2s; }
+.equalizer-bar:nth-child(3) { animation-delay: 0.4s; }
+.equalizer-bar:nth-child(4) { animation-delay: 0.2s; }
+.equalizer-bar:nth-child(5) { animation-delay: 0.1s; }
+@keyframes equalize {
+  0%, 100% { height: 8px; }
+  50% { height: 24px; }
+}
 
 * {
     margin: 0;
@@ -804,4 +832,379 @@ footer {
     #audio-player {
         max-width: 100%;
     }
+} 
+
+/* Sound Section */
+.sound-section {
+    padding: 5rem 2rem;
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
+.sound-section h2 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.sound-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.sound-card {
+    background: var(--primary-color);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    padding: 2rem 1rem 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.sound-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(255,215,0,0.10);
+}
+
+.sound-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.sound-audio {
+    width: 100%;
+    max-width: 250px;
+    outline: none;
+    border-radius: 8px;
+    background: #222;
+}
+
+@media (max-width: 700px) {
+    .sound-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .sound-card {
+        padding: 1.5rem 0.5rem 1rem 0.5rem;
+    }
+    .sound-audio {
+        max-width: 100%;
+    }
+} 
+
+/* Custom Audio Carousel */
+.custom-audio-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--primary-color);
+    border-radius: 15px;
+    padding: 2.5rem 1.5rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+}
+
+.carousel-audio-prev, .carousel-audio-next {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.carousel-audio-prev:hover, .carousel-audio-next:hover {
+    background-color: #ffed4a;
+    transform: scale(1.1);
+}
+
+.custom-audio-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 220px;
+}
+
+#custom-audio-title {
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.custom-audio-player {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.custom-audio-play {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255,215,0,0.10);
+    transition: background 0.3s, transform 0.2s;
+    outline: none;
+    position: relative;
+}
+.custom-audio-play:active {
+    transform: scale(0.95);
+}
+#custom-audio-play-icon {
+    font-size: 2.2rem;
+    display: block;
+    margin-left: 3px;
+}
+
+.custom-audio-progress-container {
+    flex: 1;
+    height: 12px;
+    background: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.custom-audio-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-color) 60%, #fffbe6 100%);
+    border-radius: 8px 0 0 8px;
+    transition: width 0.2s linear;
+    box-shadow: 0 0 8px 1px var(--accent-color);
+    animation: progress-glow 1.2s infinite alternate;
+}
+@keyframes progress-glow {
+    0% { box-shadow: 0 0 8px 1px var(--accent-color); }
+    100% { box-shadow: 0 0 16px 2px #fffbe6; }
+}
+
+#custom-audio-element {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .custom-audio-carousel {
+        flex-direction: column;
+        gap: 1.2rem;
+        padding: 1.2rem 0.5rem;
+    }
+    .custom-audio-card {
+        min-width: 0;
+    }
+} 
+
+/* Animazione slide orizzontale per il carosello audio */
+.custom-audio-card {
+    transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.3s;
+    will-change: transform, opacity;
+    position: relative;
+    left: 0;
+}
+.custom-audio-card.animating-next {
+    transform: translateX(-120%) scale(0.95);
+    opacity: 0;
+}
+.custom-audio-card.animating-prev {
+    transform: translateX(120%) scale(0.95);
+    opacity: 0;
+}
+.custom-audio-card.show {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+} 
+
+/* Animazioni rotazione carosello audio */
+.animate-rotate-left {
+  animation: rotateLeft 0.4s cubic-bezier(0.4,0.2,0.2,1);
+}
+.animate-rotate-right {
+  animation: rotateRight 0.4s cubic-bezier(0.4,0.2,0.2,1);
+}
+.animate-rotate-center {
+  animation: rotateCenter 0.4s cubic-bezier(0.4,0.2,0.2,1);
+}
+@keyframes rotateLeft {
+  0% { transform: scale(1) rotateY(0deg); opacity: 1; }
+  100% { transform: scale(0.8) rotateY(30deg); opacity: 0.6; }
+}
+@keyframes rotateRight {
+  0% { transform: scale(1) rotateY(0deg); opacity: 1; }
+  100% { transform: scale(0.8) rotateY(-30deg); opacity: 0.6; }
+}
+@keyframes rotateCenter {
+  0% { transform: scale(0.8) rotateY(30deg); opacity: 0.6; }
+  100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+
+/* Equalizzatore animato realistico */
+.equalizer-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 32px;
+  margin: 0 auto;
+}
+.equalizer-bar {
+  width: 6px;
+  background: linear-gradient(180deg, var(--accent-color), #fffbe6 80%);
+  border-radius: 3px;
+  transition: height 0.18s cubic-bezier(0.4,0.2,0.2,1);
+}
+.equalizer-bar.paused {
+  height: 8px !important;
+  background: linear-gradient(180deg, #b3b3b3, #fffbe6 80%);
+}
+
+/* Carosello 3D: effetto profondità e rotazione */
+#carousel-3d-inner {
+  transform-style: preserve-3d;
+  min-width: 0;
+}
+.audio-card {
+  box-shadow: 0 8px 32px 4px rgba(255,215,0,0.10), 0 2px 8px rgba(0,0,0,0.10);
+  background: var(--primary-color);
+  border-radius: 1.2rem;
+  transition: box-shadow 0.3s, transform 0.5s cubic-bezier(0.4,0.2,0.2,1), opacity 0.3s, filter 0.3s;
+  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
+}
+.audio-card.center {
+  z-index: 2;
+  transform: scale(1) rotateY(0deg);
+  opacity: 1;
+  filter: none;
+}
+.audio-card.left {
+  z-index: 1;
+  transform: scale(0.8) rotateY(-35deg) translateX(-30px);
+  opacity: 0.6;
+  filter: blur(1.5px);
+}
+.audio-card.right {
+  z-index: 1;
+  transform: scale(0.8) rotateY(35deg) translateX(30px);
+  opacity: 0.6;
+  filter: blur(1.5px);
+}
+@media (max-width: 900px) {
+  .audio-card { max-width: 90vw; max-height: 40vh; }
+}
+@media (max-width: 600px) {
+  .audio-card { max-width: 98vw; min-width: 0; min-height: 0; height: 220px; }
+} 
+
+/* --- Carosello audio 3D: Effetto visivo migliorato --- */
+#audio-carousel.perspective-3d, .perspective-3d {
+  perspective: 1200px;
+}
+#audio-carousel {
+  position: relative;
+  min-height: 400px;
+  user-select: none;
+}
+#audio-carousel .audio-card {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25), 0 1.5px 8px 0 rgba(255,215,0,0.08);
+  transition: 
+    transform 0.5s cubic-bezier(.4,2,.6,1),
+    box-shadow 0.4s,
+    filter 0.4s,
+    opacity 0.4s;
+  will-change: transform, box-shadow, filter, opacity;
+  overflow: hidden;
+  z-index: 1;
+}
+#audio-carousel #carousel-center.audio-card {
+  transform: scale(1.08) translateZ(60px) rotateY(0deg);
+  box-shadow: 0 12px 40px 0 rgba(255,215,0,0.18), 0 2px 16px 0 rgba(0,0,0,0.25);
+  opacity: 1;
+  filter: none;
+  z-index: 3;
+}
+#audio-carousel #carousel-left.audio-card {
+  transform: scale(0.92) translateX(-60px) rotateY(30deg) translateZ(-40px);
+  opacity: 0.6;
+  filter: blur(1.5px) grayscale(0.3);
+  z-index: 2;
+}
+#audio-carousel #carousel-right.audio-card {
+  transform: scale(0.92) translateX(60px) rotateY(-30deg) translateZ(-40px);
+  opacity: 0.6;
+  filter: blur(1.5px) grayscale(0.3);
+  z-index: 2;
+}
+#audio-carousel .audio-card .text-accent-color {
+  text-shadow: 0 2px 8px rgba(255,215,0,0.15);
+}
+#audio-carousel .play-pause-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,215,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 2px 8px rgba(255,215,0,0.10);
+  transition: background 0.2s, transform 0.2s;
+}
+#audio-carousel .play-pause-btn:hover {
+  background: rgba(255,215,0,0.25);
+  transform: scale(1.08);
+}
+#audio-carousel .equalizer {
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+@media (max-width: 900px) {
+  #audio-carousel #carousel-left.audio-card,
+  #audio-carousel #carousel-right.audio-card {
+    transform: scale(0.9) translateX(0) rotateY(0deg) translateZ(0);
+    filter: blur(0.5px) grayscale(0.1);
+    opacity: 0.8;
+  }
+  #audio-carousel #carousel-center.audio-card {
+    transform: scale(1) translateZ(0) rotateY(0deg);
+  }
+}
+@media (max-width: 600px) {
+  #audio-carousel .audio-card {
+    min-width: 90vw;
+    min-height: 220px;
+    max-width: 95vw;
+    max-height: 60vw;
+  }
 } 
