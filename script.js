@@ -74,16 +74,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
     }
 
-    // Disabilito i bottoni rimuovendo i listener e aggiungendo l'attributo disabled
-    nextButton.setAttribute('disabled', 'true');
-    prevButton.setAttribute('disabled', 'true');
-    nextButton.style.opacity = '0.5';
-    prevButton.style.opacity = '0.5';
-    nextButton.style.cursor = 'not-allowed';
-    prevButton.style.cursor = 'not-allowed';
-    // Non aggiungo più i listener per il click
-    // nextButton.addEventListener('click', nextSlide);
-    // prevButton.addEventListener('click', prevSlide);
+    // Riabilito i bottoni del carosello
+    nextButton.removeAttribute('disabled');
+    prevButton.removeAttribute('disabled');
+    nextButton.style.opacity = '';
+    prevButton.style.opacity = '';
+    nextButton.style.cursor = '';
+    prevButton.style.cursor = '';
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
 
     // Auto-advance slides every 5 seconds
     setInterval(nextSlide, 5000);
