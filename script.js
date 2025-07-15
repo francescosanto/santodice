@@ -154,3 +154,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 }); 
+
+// Audio player per la sezione "I miei lavori"
+document.addEventListener('DOMContentLoaded', function() {
+    const audioFiles = [
+        { titolo: 'Pop', file: 'Audio/Official/Pop.wav' },
+        { titolo: 'Jazz', file: 'Audio/Official/Jazz.wav' },
+        { titolo: 'Elettronica', file: 'Audio/Official/Elettronica.wav' },
+        { titolo: 'Strumentale', file: 'Audio/Official/Musica Strumentale.wav' },
+        { titolo: 'Assoli', file: 'Audio/Official/Assoli.wav' }
+    ];
+    let currentAudio = 0;
+    const audioPlayer = document.getElementById('audio-player');
+    const audioTitle = document.getElementById('audio-title');
+    const prevBtn = document.querySelector('.audio-prev');
+    const nextBtn = document.querySelector('.audio-next');
+
+    function updateAudio() {
+        audioTitle.textContent = audioFiles[currentAudio].titolo;
+        audioPlayer.src = audioFiles[currentAudio].file;
+        audioPlayer.load();
+    }
+
+    if (prevBtn && nextBtn && audioPlayer && audioTitle) {
+        prevBtn.addEventListener('click', function() {
+            currentAudio = (currentAudio - 1 + audioFiles.length) % audioFiles.length;
+            updateAudio();
+        });
+        nextBtn.addEventListener('click', function() {
+            currentAudio = (currentAudio + 1) % audioFiles.length;
+            updateAudio();
+        });
+    }
+}); 
