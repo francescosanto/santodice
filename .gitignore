@@ -4,15 +4,15 @@
 *.avi
 
 # Ignora i file audio
-*.mp3
-*.wav
-*.m4a
+# *.mp3
+# *.wav
+# *.m4a
 
 # Ignora le immagini pesanti
-*.jpg
-*.jpeg
-*.png
-*.gif
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
 
 # Ignora le cartelle con contenuti pesanti
 Esempio/ 
