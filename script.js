@@ -1,3 +1,5 @@
+// https://francescosanto.github.io/santodice/
+
 // Smooth scrolling per i link di navigazione
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -72,9 +74,16 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCarousel();
     }
 
-    // Event listeners for buttons
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
+    // Disabilito i bottoni rimuovendo i listener e aggiungendo l'attributo disabled
+    nextButton.setAttribute('disabled', 'true');
+    prevButton.setAttribute('disabled', 'true');
+    nextButton.style.opacity = '0.5';
+    prevButton.style.opacity = '0.5';
+    nextButton.style.cursor = 'not-allowed';
+    prevButton.style.cursor = 'not-allowed';
+    // Non aggiungo più i listener per il click
+    // nextButton.addEventListener('click', nextSlide);
+    // prevButton.addEventListener('click', prevSlide);
 
     // Auto-advance slides every 5 seconds
     setInterval(nextSlide, 5000);
