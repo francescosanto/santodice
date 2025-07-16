@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function aggiornaCarousel(direction, onTransitionEnd) {
     // Animazione 3D ispirata al video esempio
-    const angle = direction === 'left' ? 30 : direction === 'right' ? -30 : 0;
+    const angle = direction === 'left' ? 12 : direction === 'right' ? -12 : 0;
     const inner = document.getElementById('carousel-3d-inner');
     inner.style.transform = `rotateY(${angle}deg)`;
     setTimeout(() => {
