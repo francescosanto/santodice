@@ -92,11 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const serviceCards = document.querySelectorAll('.service-card');
     // Disabilito la possibilità di cliccare sulle card dei servizi
-    serviceCards.forEach(card => {
-        card.style.pointerEvents = 'none';
-        card.style.opacity = '0.7'; // Opzionale: effetto visivo per mostrare che sono disabilitate
-        card.style.cursor = 'not-allowed';
-    });
+    // serviceCards.forEach(card => {
+    //     card.style.pointerEvents = 'none';
+    //     card.style.opacity = '0.7'; // Opzionale: effetto visivo per mostrare che sono disabilitate
+    //     card.style.cursor = 'not-allowed';
+    // });
     // Rimuovo tutta la logica di click
     // let activeCard = null;
     // serviceCards.forEach(card => {
@@ -405,17 +405,17 @@ document.addEventListener('DOMContentLoaded', function() {
   function getWaveformHTML() {
     return `
       <div style="width: 90%; max-width: 220px; margin: 0 auto;">
-        <canvas id="waveform-canvas" width="220" height="40" style="width: 100%; height: 40px; background: #181818; border-radius: 8px;"></canvas>
+        <canvas id="waveform-canvas" width="220" height="40" style="width: 100%; height: 40px; background: transparent; border-radius: 8px;"></canvas>
       </div>
     `;
   }
 
-  function getCardHTML(idx, type, isActive, isPlayingNow) {
+  function getCardHTML(idx, type, isActive, isPlayingNow, hidden = false) {
     const traccia = tracce[idx];
     return `
-      <div class="w-full h-full flex flex-col items-center justify-center">
-        <div style="width: 120px; height: 120px; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.18); margin-bottom: 18px; background: #222;">
-          <img src="${traccia.cover ? traccia.cover : defaultCover}" alt="Copertina ${traccia.titolo}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      <div class="audio-card-inner w-full h-full flex flex-col items-center justify-center">
+        <div class="audio-img-container">
+          <img src="${traccia.cover ? traccia.cover : defaultCover}" alt="Copertina ${traccia.titolo}" style="width: 100%; height: 100%; object-fit: cover; display: block;"${hidden ? ' class="img-hidden"' : ''} />
         </div>
         <div class="text-xl font-bold text-accent-color mb-4">${traccia.titolo}</div>
         <button class="play-pause-btn" data-idx="${idx}" style="background: none; border: none; outline: none; cursor: pointer;">${getPlayPauseIcon(isActive && isPlayingNow)}</button>
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return (current + offset + tracce.length) % tracce.length;
   }
 
-  function aggiornaCarousel(direction) {
+  function aggiornaCarousel(direction, onTransitionEnd) {
     // Animazione 3D ispirata al video esempio
     const angle = direction === 'left' ? 30 : direction === 'right' ? -30 : 0;
     const inner = document.getElementById('carousel-3d-inner');
@@ -446,41 +446,144 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       inner.style.transform = 'rotateY(0deg)';
       aggiornaCards();
+      if (typeof onTransitionEnd === 'function') {
+        setTimeout(onTransitionEnd, 100); // Messa a fuoco dopo 100ms
+      }
     }, 300);
   }
 
-  // Modifica aggiornaCards per generare la waveform finta quando cambia traccia
-  function aggiornaCards() {
-    cardLeft.innerHTML = getCardHTML(getIndex(-1), 'left', false, false);
-    cardCenter.innerHTML = getCardHTML(getIndex(0), 'center', true, isPlaying);
-    cardRight.innerHTML = getCardHTML(getIndex(1), 'right', false, false);
-    waveformData = waveforms[getIndex(0)];
-    [cardLeft, cardCenter, cardRight].forEach(card => {
-      const btn = card.querySelector('.play-pause-btn');
-      if (btn) {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const idx = parseInt(btn.getAttribute('data-idx'));
-          if (idx === current) {
-            if (audio.paused) {
-              playAudio(idx);
-            } else {
-              pauseAudio(idx);
-            }
-          } else {
-            current = idx;
-            aggiornaCarousel(idx > current ? 'right' : 'left');
-            setTimeout(() => playAudio(current), 350);
-          }
-        });
+  // Stato TV per ogni card: '', 'off', 'on'
+  let tvStates = ['', '', '']; // [left, center, right]
+
+  // SEMPLIFICATO: solo transizione opacity sull'immagine
+  function setImageHiddenOnCard(card, hidden) {
+    const img = card.querySelector('img');
+    if (!img) return;
+    if (hidden) {
+      img.classList.add('img-hidden');
+    } else {
+      img.classList.remove('img-hidden');
+    }
+  }
+
+  // Nasconde/mostra tutte le immagini delle card
+  function setAllImagesHidden(hidden) {
+    [cardLeft, cardCenter, cardRight].forEach(card => setImageHiddenOnCard(card, hidden));
+  }
+
+  // --- INIZIO NUOVA LOGICA CAROSELLO ---
+  // Genera le card una sola volta
+  function creaCard(container, idx, isActive) {
+    container.innerHTML = `
+      <div class="audio-card-inner w-full h-full flex flex-col items-center justify-center">
+        <div class="audio-img-container">
+          <img class="board-fade" />
+        </div>
+        <div class="text-xl font-bold text-accent-color mb-4 board-fade"></div>
+        <button class="play-pause-btn board-fade" style="background: none; border: none; outline: none; cursor: pointer;"></button>
+        <div class="waveform-placeholder board-fade"></div>
+      </div>
+    `;
+    aggiornaContenutoCard(container, idx, isActive, false);
+  }
+
+  function aggiornaContenutoCard(container, idx, isActive, hidden) {
+    const traccia = tracce[idx];
+    const img = container.querySelector('img');
+    const titolo = container.querySelector('.text-xl');
+    const btn = container.querySelector('.play-pause-btn');
+    const waveform = container.querySelector('.waveform-placeholder');
+    if (img) {
+      img.src = traccia.cover ? traccia.cover : defaultCover;
+      img.alt = 'Copertina ' + traccia.titolo;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.style.display = 'block';
+    }
+    if (titolo) titolo.textContent = traccia.titolo;
+    if (btn) {
+      btn.innerHTML = getPlayPauseIcon(isActive && isPlaying);
+      btn.setAttribute('data-idx', idx);
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        if (idx === current) {
+          if (audio.paused) playAudio(idx);
+          else pauseAudio(idx);
+        } else {
+          changeTrackWithFadeEffect(idx);
+        }
+      };
+      // Applica la classe board-fade anche all'SVG
+      const svg = btn.querySelector('svg');
+      if (svg) {
+        svg.classList.add('board-fade');
+        if (hidden) svg.classList.add('board-hidden');
+        else svg.classList.remove('board-hidden');
       }
+    }
+    if (waveform) waveform.innerHTML = isActive ? getWaveformHTML() : '';
+    // Applica la classe board-fade anche al waveform SVG
+    if (waveform) {
+      const svg = waveform.querySelector('svg');
+      if (svg) {
+        svg.classList.add('board-fade');
+        if (hidden) svg.classList.add('board-hidden');
+        else svg.classList.remove('board-hidden');
+      }
+    }
+    // Applica/rimuovi la classe board-hidden a TUTTI gli elementi .board-fade
+    container.querySelectorAll('.board-fade').forEach(el => {
+      if (hidden) el.classList.add('board-hidden');
+      else el.classList.remove('board-hidden');
     });
+  }
+
+  // All'avvio: crea le card
+  creaCard(cardLeft, getIndex(-1), false);
+  creaCard(cardCenter, getIndex(0), true);
+  creaCard(cardRight, getIndex(1), false);
+
+  // --- AGGIUNTA: click sulle board laterali per cambiare traccia ---
+  cardLeft.addEventListener('click', function() {
+    btnPrev.onclick();
+  });
+  cardRight.addEventListener('click', function() {
+    btnNext.onclick();
+  });
+
+  // Aggiorna tutte le card (usato per waveform, play/pause, ecc.)
+  function aggiornaCards(forceHidden = false) {
+    aggiornaContenutoCard(cardLeft, getIndex(-1), false, forceHidden);
+    aggiornaContenutoCard(cardCenter, getIndex(0), true, forceHidden);
+    aggiornaContenutoCard(cardRight, getIndex(1), false, forceHidden);
+    waveformData = waveforms[getIndex(0)];
     if (isPlaying) {
       startWaveform();
     } else {
       stopWaveform();
     }
     setTimeout(drawWaveform, 100);
+    // Applica la visibilità a tutti gli elementi
+    setAllBoardsHidden(forceHidden);
+  }
+
+  // Cambia board con fade robusto su tutti gli elementi
+  function changeTrackWithFadeEffect(newIdx) {
+    setAllBoardsHidden(true);
+    setTimeout(() => {
+      const direction = newIdx > current ? 'right' : 'left';
+      current = newIdx;
+      aggiornaCarousel(direction, () => {
+        aggiornaCards(true); // aggiorna contenuto ma elementi ancora nascosti
+        setTimeout(() => {
+          [cardLeft, cardCenter, cardRight].forEach(card => {
+            card.querySelectorAll('.board-fade').forEach(el => void el.offsetHeight);
+          });
+          setAllBoardsHidden(false); // fade-in
+        }, 80);
+      });
+    }, 350);
   }
 
   function playAudio(idx) {
@@ -519,24 +622,74 @@ document.addEventListener('DOMContentLoaded', function() {
     drawWaveform();
   });
 
-  btnPrev.addEventListener('click', function() {
-    current = (current - 1 + tracce.length) % tracce.length;
-    aggiornaCarousel('left');
-    isPlaying = false;
-    audio.pause();
-    aggiornaCards();
-    // stopEqualizer(); // Rimuovo l'equalizzatore animato
-  });
-  btnNext.addEventListener('click', function() {
-    current = (current + 1) % tracce.length;
-    aggiornaCarousel('right');
-    isPlaying = false;
-    audio.pause();
-    aggiornaCards();
-    // stopEqualizer(); // Rimuovo l'equalizzatore animato
-  });
+  function blurAllBoards() {
+    [cardLeft, cardCenter, cardRight].forEach(card => {
+      const inner = card.querySelector('.audio-card-inner');
+      if (inner) inner.classList.add('is-blurring');
+    });
+  }
+  function unblurAllBoards() {
+    [cardLeft, cardCenter, cardRight].forEach(card => {
+      const inner = card.querySelector('.audio-card-inner');
+      if (inner) inner.classList.remove('is-blurring');
+    });
+  }
 
-  aggiornaCards();
+  // Bottoni prev/next con fade robusto
+  btnPrev.onclick = function() {
+    setAllBoardsHidden(true);
+    blurAllBoards();
+    setTimeout(() => {
+      current = (current - 1 + tracce.length) % tracce.length;
+      aggiornaCarousel('left', () => {
+        aggiornaCards(true);
+        unblurAllBoards();
+        setTimeout(() => {
+          [cardLeft, cardCenter, cardRight].forEach(card => {
+            card.querySelectorAll('.board-fade').forEach(el => void el.offsetHeight);
+          });
+          setAllBoardsHidden(false);
+        }, 80);
+      });
+      isPlaying = false;
+      audio.pause();
+      audio.currentTime = 0;
+    }, 350);
+  };
+  btnNext.onclick = function() {
+    setAllBoardsHidden(true);
+    blurAllBoards();
+    setTimeout(() => {
+      current = (current + 1) % tracce.length;
+      aggiornaCarousel('right', () => {
+        aggiornaCards(true);
+        unblurAllBoards();
+        setTimeout(() => {
+          [cardLeft, cardCenter, cardRight].forEach(card => {
+            card.querySelectorAll('.board-fade').forEach(el => void el.offsetHeight);
+          });
+          setAllBoardsHidden(false);
+        }, 80);
+      });
+      isPlaying = false;
+      audio.pause();
+      audio.currentTime = 0;
+    }, 350);
+  };
+
+  // Utility per fade su tutti gli elementi
+  function setAllBoardsHidden(hidden) {
+    [cardLeft, cardCenter, cardRight].forEach(card => {
+      card.querySelectorAll('.board-fade').forEach(el => {
+        if (hidden) el.classList.add('board-hidden');
+        else el.classList.remove('board-hidden');
+      });
+    });
+  }
+
+  // All'avvio: elementi visibili
+  aggiornaCards(false); // visibili al primo caricamento
+  setTimeout(() => setAllBoardsHidden(false), 10);
 }); 
 
 // Sezione 'Il mio sound' rimossa: nessuna logica JS per il carosello audio 
