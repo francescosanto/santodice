@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const height = canvas.height;
     ctx.clearRect(0, 0, width, height);
     let activeBars = 0;
-    if (audio.duration) {
+    if (audio.duration && !isNaN(audio.duration) && audio.currentTime > 0 && !audio.paused) {
       activeBars = Math.floor((audio.currentTime / audio.duration) * WAVEFORM_BARS);
     }
     for (let i = 0; i < WAVEFORM_BARS; i++) {

@@ -1637,6 +1637,14 @@ body, html {
     align-items: center !important;
     justify-content: center !important;
   }
+  @media (max-width: 600px) {
+    .audio-card {
+      padding-bottom: 2.5rem !important;
+    }
+    .waveform-placeholder {
+      margin-bottom: 1.2rem !important;
+    }
+  }
 }
 
 /* --- PC: frecce sempre allineate alle card --- */
