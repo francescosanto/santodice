@@ -1379,3 +1379,364 @@ footer {
 .hero-title-effect:hover::after {
     transform: skewX(-20deg) translateX(80%);
 } 
+
+/* --- Fix responsività e animazioni carosello audio --- */
+
+/* Contenitore principale: nessun overflow che taglia le card */
+#audio-carousel {
+  width: 100vw;
+  max-width: 100vw;
+  padding: 0 0.5rem;
+  overflow: visible;
+}
+
+/* Card audio: desktop */
+.audio-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 1rem 0.5rem 1.5rem 0.5rem;
+  width: 350px;
+  max-width: 90vw;
+  min-width: 220px;
+  height: 400px;
+  min-height: 260px;
+  aspect-ratio: 1/1.1;
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+}
+
+/* Animazione rimpicciolimento su hover SOLO su desktop */
+@media (hover: hover) and (pointer: fine) {
+  #carousel-center.audio-card:hover {
+    transform: scale(0.95);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  }
+}
+
+/* Card audio: mobile */
+@media (max-width: 600px) {
+  .audio-card {
+    width: 95vw;
+    min-width: 160px;
+    max-width: 98vw;
+    height: auto;
+    min-height: 180px;
+    max-height: 320px;
+    aspect-ratio: 1/1.1;
+    padding: 0.7rem 0.2rem 1rem 0.2rem;
+  }
+  .audio-card img {
+    height: 48vw;
+    min-height: 90px;
+    max-height: 160px;
+  }
+}
+
+/* Immagine nella card */
+.audio-card img {
+  width: 100%;
+  height: 55%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* Pulsanti carosello */
+#carousel-prev, #carousel-next {
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  top: 60%;
+}
+
+@media (max-width: 600px) {
+  #carousel-prev, #carousel-next {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    top: 55%;
+  }
+}
+
+/* Blocca lo scroll orizzontale solo a livello di pagina */
+body, html {
+  overflow-x: hidden;
+} 
+
+/* --- Fix posizione frecce carosello e proporzioni card --- */
+#carousel-prev {
+  left: 2rem;
+  right: auto;
+}
+#carousel-next {
+  right: 2rem;
+  left: auto;
+}
+@media (max-width: 600px) {
+  #carousel-prev {
+    left: 0.5rem;
+  }
+  #carousel-next {
+    right: 0.5rem;
+  }
+}
+
+/* Card audio: desktop proporzioni migliorate */
+.audio-card {
+  width: 320px;
+  height: 400px;
+  aspect-ratio: 4/5;
+}
+
+/* Card audio: mobile più alta e immagine più grande */
+@media (max-width: 600px) {
+  .audio-card {
+    width: 92vw;
+    height: 68vw;
+    min-height: 220px;
+    max-height: 380px;
+    aspect-ratio: 4/5;
+    padding: 0.7rem 0.2rem 1rem 0.2rem;
+  }
+  .audio-card img {
+    height: 60%;
+    min-height: 100px;
+    max-height: 200px;
+  }
+} 
+
+/* --- Fix definitivo proporzioni audio-card e posizione frecce --- */
+
+/* Su mobile: la card occupa quasi tutta la larghezza e cresce in altezza */
+@media (max-width: 600px) {
+  #audio-carousel .audio-card,
+  .audio-card {
+    width: 95vw !important;
+    min-width: 0 !important;
+    max-width: 98vw !important;
+    height: auto !important;
+    min-height: 220px !important;
+    max-height: none !important;
+    aspect-ratio: 4/5 !important;
+    padding: 0.7rem 0.2rem 1rem 0.2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .audio-card img,
+  #audio-carousel .audio-card img {
+    height: 60vw !important;
+    min-height: 120px !important;
+    max-height: 220px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Su desktop: frecce più vicine al centro */
+#carousel-prev {
+  left: 0.5rem !important;
+  right: auto;
+}
+#carousel-next {
+  right: 0.5rem !important;
+  left: auto;
+} 
+
+/* --- MOBILE: solo board centrale, centrata e proporzionata, senza frecce e board laterali --- */
+@media (max-width: 600px) {
+  #carousel-left,
+  #carousel-right,
+  #carousel-prev,
+  #carousel-next {
+    display: none !important;
+  }
+  #carousel-center {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    position: static !important;
+  }
+  #audio-carousel {
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+  #carousel-3d-inner {
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    width: 100vw !important;
+    height: auto !important;
+  }
+  #audio-carousel .audio-card,
+  .audio-card {
+    width: 92vw !important;
+    min-width: 0 !important;
+    max-width: 98vw !important;
+    height: auto !important;
+    min-height: 260px !important;
+    max-height: none !important;
+    aspect-ratio: 1/1.1 !important;
+    padding: 1.2rem 0.2rem 1.2rem 0.2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 0 auto !important;
+    box-shadow: 0 8px 32px 4px rgba(255,215,0,0.10), 0 2px 8px rgba(0,0,0,0.10) !important;
+  }
+  .audio-img-container {
+    width: 60vw !important;
+    height: 60vw !important;
+    max-width: 260px !important;
+    max-height: 260px !important;
+    min-width: 120px !important;
+    min-height: 120px !important;
+    margin-bottom: 1.2rem !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    background: #222 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .audio-img-container img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 18px !important;
+  }
+  .play-pause-btn {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50% !important;
+    font-size: 2.2rem !important;
+    margin: 0.7rem 0 0.7rem 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .equalizer, .waveform-placeholder {
+    width: 80% !important;
+    max-width: 220px !important;
+    margin: 0.7rem auto 0.2rem auto !important;
+    min-height: 32px !important;
+    max-height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* --- PC: frecce sempre allineate alle card --- */
+@media (min-width: 601px) {
+  #carousel-prev {
+    left: calc(50% - 260px - 2.5rem) !important;
+    right: auto;
+  }
+  #carousel-next {
+    right: calc(50% - 260px - 2.5rem) !important;
+    left: auto;
+  }
+} 
+
+@media (max-width: 600px) {
+  #carousel-left,
+  #carousel-right {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+  }
+  #carousel-prev, #carousel-next {
+    display: flex !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    left: 1.5rem !important;
+    right: 1.5rem !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.5rem !important;
+    z-index: 10 !important;
+    background: var(--accent-color) !important;
+    color: var(--primary-color) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 8px rgba(255,215,0,0.10) !important;
+  }
+  #carousel-prev {
+    left: 0.5rem !important;
+    right: auto !important;
+  }
+  #carousel-next {
+    right: 0.5rem !important;
+    left: auto !important;
+  }
+  #audio-carousel .audio-card,
+  .audio-card {
+    width: 80vw !important;
+    max-width: 340px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 200px !important;
+    max-height: none !important;
+    aspect-ratio: 1/1.1 !important;
+    margin: 0 auto !important;
+    padding: 1rem 0.2rem 1rem 0.2rem !important;
+  }
+  .audio-img-container {
+    width: 48vw !important;
+    height: 48vw !important;
+    max-width: 180px !important;
+    max-height: 180px !important;
+    min-width: 90px !important;
+    min-height: 90px !important;
+  }
+}
+
+/* Desktop: card più piccola per evitare overflow con zoom */
+@media (min-width: 601px) {
+  #audio-carousel .audio-card,
+  .audio-card {
+    width: 280px !important;
+    max-width: 320px !important;
+    min-width: 220px !important;
+    height: 350px !important;
+    min-height: 220px !important;
+    aspect-ratio: 4/5 !important;
+  }
+} 
+
+@media (max-width: 600px) {
+  #audio-carousel .audio-card,
+  .audio-card {
+    width: 84vw !important;
+    max-width: 90vw !important;
+    aspect-ratio: 4/5 !important;
+    min-height: 220px !important;
+    max-height: 420px !important;
+    padding: 1.2rem 0.2rem 1.2rem 0.2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 0 auto !important;
+  }
+  /* Le dimensioni degli oggetti interni restano invariate */
+} 
