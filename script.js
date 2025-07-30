@@ -1,5 +1,292 @@
 // https://francescosanto.github.io/santodice/
 
+// Sistema di traduzioni
+const translations = {
+    it: {
+        nav: {
+            home: "HOME",
+            services: "SERVIZI",
+            sound: "IL MIO SOUND",
+            projects: "PROGETTI",
+            contact: "CONTATTI"
+        },
+        hero: {
+            subtitle: "Ingegneria Audio e Produzione Musicale"
+        },
+        services: {
+            title: "I MIEI SERVIZI",
+            production: {
+                title: "Produzione",
+                description: "Produzione musicale completa per il tuo progetto"
+            },
+            mix: {
+                title: "Mix",
+                description: "Mix professionale per portare la tua musica al livello successivo"
+            },
+            mastering: {
+                title: "Mastering",
+                description: "Mastering di qualità per un suono perfetto su ogni piattaforma"
+            },
+            live: {
+                title: "Live Sound",
+                description: "Gestione audio professionale per eventi dal vivo"
+            }
+        },
+        studio: {
+            title: "LO STUDIO",
+            subtitle: "Il tuo spazio creativo nel cuore di Varese",
+            description: "Un ambiente professionale e accogliente, dotato delle migliori attrezzature audio per dare vita ai tuoi progetti musicali. Lo studio offre:",
+            features: {
+                equipment: "Macchine e software professionali",
+                rehearsal: "Sala prove attrezzata",
+                environment: "Ambiente confortevole e creativo",
+                support: "Assistenza tecnica specializzata"
+            },
+            book: "Prenota una sessione"
+        },
+        sound: {
+            title: "IL MIO SOUND"
+        },
+        projects: {
+            title: "I MIEI PROGETTI PERSONALI",
+            album: "Album",
+            single: "Singolo",
+            comingSoon: {
+                title: "Coming Soon...",
+                description: "Nuovi progetti in arrivo"
+            }
+        },
+        contact: {
+            title: "CONTATTAMI",
+            email: "Email:"
+        },
+        footer: {
+            copyright: "© 2024 SANTO. Tutti i diritti riservati."
+        }
+    },
+    en: {
+        nav: {
+            home: "HOME",
+            services: "SERVICES",
+            sound: "MY SOUND",
+            projects: "PROJECTS",
+            contact: "CONTACT"
+        },
+        hero: {
+            subtitle: "Audio Engineering & Production"
+        },
+        services: {
+            title: "MY SERVICES",
+            production: {
+                title: "Production",
+                description: "Complete musical production for your project"
+            },
+            mix: {
+                title: "Mixing",
+                description: "Professional mixing to take your music to the next level"
+            },
+            mastering: {
+                title: "Mastering",
+                description: "Quality mastering for perfect sound on every platform"
+            },
+            live: {
+                title: "Live Sound",
+                description: "Professional audio management for live events"
+            }
+        },
+        studio: {
+            title: "THE STUDIO",
+            subtitle: "Your creative space in the heart of Varese",
+            description: "A professional and welcoming environment, equipped with the best audio equipment to bring your musical projects to life. The studio offers:",
+            features: {
+                equipment: "Professional machines and software",
+                rehearsal: "Equipped rehearsal room",
+                environment: "Comfortable and creative environment",
+                support: "Specialized technical support"
+            },
+            book: "Book a session"
+        },
+        sound: {
+            title: "MY SOUND"
+        },
+        projects: {
+            title: "MY PERSONAL PROJECTS",
+            album: "Album",
+            single: "Single",
+            comingSoon: {
+                title: "Coming Soon...",
+                description: "New projects coming soon"
+            }
+        },
+        contact: {
+            title: "CONTACT ME",
+            email: "Email:"
+        },
+        footer: {
+            copyright: "© 2024 SANTO. All rights reserved."
+        }
+    },
+    es: {
+        nav: {
+            home: "INICIO",
+            services: "SERVICIOS",
+            sound: "MI SONIDO",
+            projects: "PROYECTOS",
+            contact: "CONTACTO"
+        },
+        hero: {
+            subtitle: "Ingeniería de Audio & Producción"
+        },
+        services: {
+            title: "MIS SERVICIOS",
+            production: {
+                title: "Producción",
+                description: "Producción musical completa para tu proyecto"
+            },
+            mix: {
+                title: "Mezcla",
+                description: "Mezcla profesional para llevar tu música al siguiente nivel"
+            },
+            mastering: {
+                title: "Masterización",
+                description: "Masterización de calidad para un sonido perfecto en cada plataforma"
+            },
+            live: {
+                title: "Sonido en Vivo",
+                description: "Gestión profesional de audio para eventos en vivo"
+            }
+        },
+        studio: {
+            title: "EL ESTUDIO",
+            subtitle: "Tu espacio creativo en el corazón de Varese",
+            description: "Un ambiente profesional y acogedor, equipado con las mejores herramientas de audio para dar vida a tus proyectos musicales. El estudio ofrece:",
+            features: {
+                equipment: "Máquinas y software profesionales",
+                rehearsal: "Sala de ensayo equipada",
+                environment: "Ambiente cómodo y creativo",
+                support: "Soporte técnico especializado"
+            },
+            book: "Reserva una sesión"
+        },
+        sound: {
+            title: "MI SONIDO"
+        },
+        projects: {
+            title: "MIS PROYECTOS PERSONALES",
+            album: "Álbum",
+            single: "Sencillo",
+            comingSoon: {
+                title: "Próximamente...",
+                description: "Nuevos proyectos en camino"
+            }
+        },
+        contact: {
+            title: "CONTÁCTAME",
+            email: "Email:"
+        },
+        footer: {
+            copyright: "© 2024 SANTO. Todos los derechos reservados."
+        }
+    }
+};
+
+// Funzione per cambiare lingua
+function changeLanguage(language) {
+    const elements = document.querySelectorAll('[data-translate]');
+    
+    elements.forEach(element => {
+        const key = element.getAttribute('data-translate');
+        const keys = key.split('.');
+        let translation = translations[language];
+        
+        for (const k of keys) {
+            if (translation && translation[k]) {
+                translation = translation[k];
+            } else {
+                translation = null;
+                break;
+            }
+        }
+        
+        if (translation) {
+            element.textContent = translation;
+        }
+    });
+    
+    // Aggiorna la bandiera e il display
+    updateLanguageDisplay(language);
+    
+    // Salva la lingua selezionata nel localStorage
+    localStorage.setItem('selectedLanguage', language);
+}
+
+// Funzione per aggiornare la bandiera e il testo
+function updateLanguageDisplay(language) {
+    const currentFlagImg = document.getElementById('current-flag-img');
+    const currentLang = document.getElementById('current-lang');
+    const flags = {
+        'it': './flags/it.svg',
+        'en': './flags/en.svg',
+        'es': './flags/es.svg'
+    };
+    const languages = {
+        'it': 'IT',
+        'en': 'EN',
+        'es': 'ES'
+    };
+    
+    if (currentFlagImg && currentLang && flags[language]) {
+        // Aggiungi animazione
+        currentFlagImg.style.transform = 'scale(1.2) rotate(180deg)';
+        
+        // Cambia la bandiera e il testo dopo un breve delay
+        setTimeout(() => {
+            currentFlagImg.src = flags[language];
+            currentFlagImg.alt = `Bandiera ${language === 'it' ? 'italiana' : language === 'en' ? 'britannica' : 'spagnola'}`;
+            currentLang.textContent = languages[language];
+            currentFlagImg.style.transform = 'scale(1) rotate(360deg)';
+        }, 150);
+    }
+}
+
+// Inizializzazione del sistema di traduzioni
+document.addEventListener('DOMContentLoaded', function() {
+    const languageDropdown = document.querySelector('.language-dropdown');
+    const languageCurrent = document.getElementById('language-current');
+    const languageOptions = document.getElementById('language-options');
+    
+    // Carica la lingua salvata o usa italiano come default
+    const savedLanguage = localStorage.getItem('selectedLanguage') || 'it';
+    
+    // Applica la lingua iniziale
+    changeLanguage(savedLanguage);
+    
+    // Event listener per aprire/chiudere il dropdown
+    languageCurrent.addEventListener('click', function(e) {
+        e.stopPropagation();
+        languageDropdown.classList.toggle('open');
+    });
+    
+    // Event listener per le opzioni di lingua
+    document.querySelectorAll('.language-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const language = this.getAttribute('data-lang');
+            changeLanguage(language);
+            languageDropdown.classList.remove('open');
+        });
+    });
+    
+    // Chiudi il dropdown quando si clicca fuori
+    document.addEventListener('click', function() {
+        languageDropdown.classList.remove('open');
+    });
+    
+    // Previeni la chiusura quando si clicca dentro il dropdown
+    languageDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});
+
 // Smooth scrolling per i link di navigazione
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {

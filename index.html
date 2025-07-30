@@ -15,32 +15,56 @@
     <nav class="navbar">
         <div class="logo">SANTO</div>
         <div class="nav-links">
-            <a href="#home">HOME</a>
-            <a href="#servizi">SERVIZI</a>
-            <a href="#progetti">PROGETTI</a>
-            <a href="#contatti">CONTATTI</a>
+            <a href="#home" data-translate="nav.home">HOME</a>
+            <a href="#servizi" data-translate="nav.services">SERVIZI</a>
+            <a href="#sound" data-translate="nav.sound">IL MIO SOUND</a>
+            <a href="#progetti" data-translate="nav.projects">PROGETTI</a>
+            <a href="#contatti" data-translate="nav.contact">CONTATTI</a>
+        </div>
+        <div class="language-selector">
+            <div class="language-dropdown">
+                <div class="language-current" id="language-current">
+                    <img src="./flags/it.svg" alt="Bandiera italiana" id="current-flag-img">
+                    <span id="current-lang">IT</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="language-options" id="language-options">
+                    <div class="language-option" data-lang="it">
+                        <img src="./flags/it.svg" alt="Bandiera italiana">
+                        <span>Italiano</span>
+                    </div>
+                    <div class="language-option" data-lang="en">
+                        <img src="./flags/en.svg" alt="Bandiera britannica">
+                        <span>English</span>
+                    </div>
+                    <div class="language-option" data-lang="es">
+                        <img src="./flags/es.svg" alt="Bandiera spagnola">
+                        <span>Español</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
     <section id="home" class="hero">
         <div class="hero-background">
             <video autoplay muted loop playsinline>
-                <source src="./Immagini/VideoClip Official Compresso.mp4" type="video/mp4">
+                <source src="./Immagini/Ubriaco 30s.mp4" type="video/mp4">
             </video>
         </div>
         <div class="hero-content">
             <h1 class="hero-title-effect">SANTO</h1>
-            <p>Audio Engineering & Production</p>
+            <p data-translate="hero.subtitle">Audio Engineering & Production</p>
         </div>
     </section>
 
     <section id="servizi" class="services">
-        <h2>I MIEI SERVIZI</h2>
+        <h2 data-translate="services.title">I MIEI SERVIZI</h2>
         <div class="services-grid">
             <div class="service-card" data-service="produzione">
                 <i class="fas fa-headphones"></i>
-                <h3>Produzione</h3>
-                <p>Produzione musicale completa per il tuo progetto</p>
+                <h3 data-translate="services.production.title">Produzione</h3>
+                <p data-translate="services.production.description">Produzione musicale completa per il tuo progetto</p>
                 <div class="service-details">
                     <div class="service-content">
                         <!-- Il contenuto verrà aggiunto successivamente -->
@@ -49,8 +73,8 @@
             </div>
             <div class="service-card" data-service="mix">
                 <i class="fas fa-wave-square"></i>
-                <h3>Mix</h3>
-                <p>Mix professionale per portare la tua musica al livello successivo</p>
+                <h3 data-translate="services.mix.title">Mix</h3>
+                <p data-translate="services.mix.description">Mix professionale per portare la tua musica al livello successivo</p>
                 <div class="service-details">
                     <div class="service-content">
                         <!-- Il contenuto verrà aggiunto successivamente -->
@@ -59,8 +83,8 @@
             </div>
             <div class="service-card" data-service="master">
                 <i class="fas fa-compact-disc"></i>
-                <h3>Mastering</h3>
-                <p>Mastering di qualità per un suono perfetto su ogni piattaforma</p>
+                <h3 data-translate="services.mastering.title">Mastering</h3>
+                <p data-translate="services.mastering.description">Mastering di qualità per un suono perfetto su ogni piattaforma</p>
                 <div class="service-details">
                     <div class="service-content">
                         <!-- Il contenuto verrà aggiunto successivamente -->
@@ -69,8 +93,8 @@
             </div>
             <div class="service-card" data-service="live">
                 <i class="fas fa-volume-high"></i>
-                <h3>Live Sound</h3>
-                <p>Gestione audio professionale per eventi dal vivo</p>
+                <h3 data-translate="services.live.title">Live Sound</h3>
+                <p data-translate="services.live.description">Gestione audio professionale per eventi dal vivo</p>
                 <div class="service-details">
                     <div class="service-content">
                         <!-- Il contenuto verrà aggiunto successivamente -->
@@ -81,18 +105,18 @@
     </section>
 
     <section id="studio" class="studio">
-        <h2>LO STUDIO</h2>
+        <h2 data-translate="studio.title">LO STUDIO</h2>
         <div class="studio-content">
             <div class="studio-info">
-                <h3>Il tuo spazio creativo nel cuore di Varese</h3>
-                <p>Un ambiente professionale e accogliente, dotato delle migliori attrezzature audio per dare vita ai tuoi progetti musicali. Lo studio offre:</p>
+                <h3 data-translate="studio.subtitle">Il tuo spazio creativo nel cuore di Varese</h3>
+                <p data-translate="studio.description">Un ambiente professionale e accogliente, dotato delle migliori attrezzature audio per dare vita ai tuoi progetti musicali. Lo studio offre:</p>
                 <ul>
-                    <li>Macchine e software professionali</li>
-                    <li>Sala prove attrezzata</li>
-                    <li>Ambiente confortevole e creativo</li>
-                    <li>Assistenza tecnica specializzata</li>
+                    <li data-translate="studio.features.equipment">Macchine e software professionali</li>
+                    <li data-translate="studio.features.rehearsal">Sala prove attrezzata</li>
+                    <li data-translate="studio.features.environment">Ambiente confortevole e creativo</li>
+                    <li data-translate="studio.features.support">Assistenza tecnica specializzata</li>
                 </ul>
-                <a href="mailto:fra.santo00@gmail.com" class="contact-button">Prenota una sessione</a>
+                <a href="mailto:fra.santo00@gmail.com" class="contact-button" data-translate="studio.book">Prenota una sessione</a>
             </div>
             <div class="studio-carousel">
                 <div class="carousel-container">
@@ -116,9 +140,9 @@
     </section>
 
     <!-- Sezione Il mio sound - Carosello audio 3D migliorato -->
-    <section id="sound" class="min-h-screen flex items-center justify-center bg-secondary-color">
+    <section id="sound" class="min-h-screen flex items-center justify-center bg-primary-color">
       <div class="container mx-auto px-4 flex flex-col items-center justify-center h-full">
-        <h2 class="text-3xl md:text-4xl font-bold text-accent-color text-center mb-10 tracking-wide">IL MIO SOUND</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-accent-color text-center mb-10 tracking-wide" data-translate="sound.title">IL MIO SOUND</h2>
         <div id="audio-carousel" class="relative flex items-center justify-center gap-4 md:gap-10 w-full max-w-5xl h-[60vh] select-none perspective-3d">
           <!-- Pulsante sinistra -->
           <button id="carousel-prev" aria-label="Traccia precedente" class="absolute left-0 top-1/2 -translate-y-1/2 bg-accent-color text-primary-color rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-yellow-300 transition z-30"><i class="fas fa-chevron-left text-2xl"></i></button>
@@ -138,13 +162,13 @@
     </section>
 
     <section id="progetti" class="projects">
-        <h2>I MIEI PROGETTI PERSONALI</h2>
+        <h2 data-translate="projects.title">I MIEI PROGETTI PERSONALI</h2>
         <div class="projects-grid">
             <a href="https://open.spotify.com/intl-it/artist/29mQxvdoWqe5jMz7EMPa1T" target="_blank" class="project-card album-card" style="text-decoration: none; color: inherit;">
                 <img src="./Immagini/SANTODICE Album.png" alt="SANTODICE Album">
                 <div class="project-info">
                     <h3>SANTODICE</h3>
-                    <p>Album • 2023</p>
+                    <p><span data-translate="projects.album">Album</span> • 2023</p>
                 </div>
             </a>
             <div class="project-card video-card">
@@ -161,7 +185,7 @@
                 </div>
                 <div class="project-info">
                     <h3>Ubriaco</h3>
-                    <p>Singolo • 2023</p>
+                    <p><span data-translate="projects.single">Singolo</span> • 2023</p>
                 </div>
             </div>
             <div class="project-card video-card">
@@ -178,7 +202,7 @@
                 </div>
                 <div class="project-info">
                     <h3>Cocco</h3>
-                    <p>Singolo • 2022</p>
+                    <p><span data-translate="projects.single">Singolo</span> • 2022</p>
                 </div>
             </div>
             <div class="project-card video-card">
@@ -195,7 +219,7 @@
                 </div>
                 <div class="project-info">
                     <h3>Fumo la vita</h3>
-                    <p>Singolo • 2022</p>
+                    <p><span data-translate="projects.single">Singolo</span> • 2022</p>
                 </div>
             </div>
             <div class="project-card video-card">
@@ -212,23 +236,23 @@
                 </div>
                 <div class="project-info">
                     <h3>Parlerebbe di te</h3>
-                    <p>Singolo • 2022</p>
+                    <p><span data-translate="projects.single">Singolo</span> • 2022</p>
                 </div>
             </div>
             <div class="project-card coming-soon">
                 <div class="coming-soon-content">
                     <i class="fas fa-clock"></i>
-                    <h3>Coming Soon...</h3>
-                    <p>Nuovi progetti in arrivo</p>
+                    <h3 data-translate="projects.comingSoon.title">Coming Soon...</h3>
+                    <p data-translate="projects.comingSoon.description">Nuovi progetti in arrivo</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="contatti" class="contact">
-        <h2>CONTATTAMI</h2>
+        <h2 data-translate="contact.title">CONTATTAMI</h2>
         <div class="contact-info">
-            <p>Email: <a href="mailto:fra.santo00@gmail.com">fra.santo00@gmail.com</a></p>
+            <p><span data-translate="contact.email">Email:</span> <a href="mailto:fra.santo00@gmail.com">fra.santo00@gmail.com</a></p>
             <div class="social-links">
                 <a href="https://www.instagram.com/santodice/" target="_blank" title="Instagram">
                     <i class="fab fa-instagram"></i>
@@ -244,7 +268,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 SANTO. Tutti i diritti riservati.</p>
+        <p data-translate="footer.copyright">&copy; 2024 SANTO. Tutti i diritti riservati.</p>
     </footer>
 
     <script src="script.js"></script>
