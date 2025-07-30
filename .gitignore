@@ -1,18 +1,35 @@
-# Ignora i file video
-*.mp4
-*.mov
-*.avi
+# File di sistema
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# Ignora i file audio
-# *.mp3
-# *.wav
-# *.m4a
+# File temporanei
+*.tmp
+*.temp
+*.log
 
-# Ignora le immagini pesanti
-# *.jpg
-# *.jpeg
-# *.png
-# *.gif
+# File di backup
+*.bak
+*.backup
 
-# Ignora le cartelle con contenuti pesanti
-Esempio/ 
+# File di configurazione locale
+.env
+.env.local
+
+# File di cache
+.cache/
+*.cache
+
+# File di IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# File di build
+dist/
+build/
+node_modules/
+
+# File audio temporanei
+*.sfk 

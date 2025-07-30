@@ -500,6 +500,11 @@ function playFirstSoundIfVisible() {
                 audio.currentTime = 0;
             }
         });
+        // Mostra il mini player quando inizia la riproduzione
+        const miniPlayer = document.getElementById('mini-player');
+        if (miniPlayer) {
+            miniPlayer.classList.add('active');
+        }
         window.removeEventListener('scroll', playFirstSoundIfVisible);
     }
 }
@@ -534,6 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
             audio.pause();
             playIcon.textContent = '▶';
         }
+        updateMiniPlayer();
     }
 
     playBtn.addEventListener('click', function() {
@@ -560,10 +566,12 @@ document.addEventListener('DOMContentLoaded', function() {
     prevBtn.addEventListener('click', function() {
         current = (current - 1 + tracce.length) % tracce.length;
         slideAnimation('prev', true);
+        updateMiniPlayer();
     });
     nextBtn.addEventListener('click', function() {
         current = (current + 1) % tracce.length;
         slideAnimation('next', true);
+        updateMiniPlayer();
     });
 
     // All'avvio, mostra la card
@@ -571,33 +579,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     audio.addEventListener('play', function() {
         playIcon.textContent = '❚❚';
+        updateMiniPlayer();
     });
     audio.addEventListener('pause', function() {
         playIcon.textContent = '▶';
+        updateMiniPlayer();
     });
     audio.addEventListener('ended', function() {
         playIcon.textContent = '▶';
         progressBar.style.width = '0%';
+        updateMiniPlayer();
     });
     audio.addEventListener('timeupdate', function() {
         const percent = (audio.currentTime / audio.duration) * 100;
         progressBar.style.width = percent + '%';
+        updateMiniPlayerProgress();
     });
 
-    // Autoplay quando la sezione è visibile
+        // Autoplay quando la sezione è visibile
     function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0
-        );
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top < window.innerHeight &&
+        rect.bottom > 0
+      );
     }
     function playIfVisible() {
-        const section = document.querySelector('.sound-section');
-        if (isElementInViewport(section)) {
-            aggiornaTraccia(true);
-            window.removeEventListener('scroll', playIfVisible);
-        }
+      const section = document.querySelector('.sound-section');
+      if (isElementInViewport(section)) {
+        aggiornaTraccia(true);
+        updateMiniPlayer();
+        window.removeEventListener('scroll', playIfVisible);
+      }
     }
     aggiornaTraccia(false);
     window.addEventListener('scroll', playIfVisible);
@@ -631,71 +644,71 @@ document.addEventListener('DOMContentLoaded', function() {
   audio.style.display = 'none';
   document.body.appendChild(audio);
 
-  // --- Waveform "finta" per ogni traccia ---
-  let waveforms = [];
-  const WAVEFORM_BARS = 32;
-  // Genera una waveform unica per ogni traccia all'avvio
-  for (let i = 0; i < tracce.length; i++) {
-    waveforms[i] = Array.from({length: WAVEFORM_BARS}, () => 8 + Math.random() * 24);
-  }
-  let waveformData = waveforms[0];
+  // --- Mini Player Logic ---
+  const miniPlayer = document.getElementById('mini-player');
+  const miniPlayerCover = document.getElementById('mini-player-cover');
+  const miniPlayerTitle = document.getElementById('mini-player-title');
+  const miniPlayerPlayBtn = document.getElementById('mini-player-play');
+  const miniPlayerPrevBtn = document.getElementById('mini-player-prev');
+  const miniPlayerNextBtn = document.getElementById('mini-player-next');
+  const miniPlayerProgressFill = document.getElementById('mini-player-progress-fill');
+  const miniPlayerCurrentTime = document.getElementById('mini-player-current-time');
+  const miniPlayerDuration = document.getElementById('mini-player-duration');
+  const miniPlayerProgressBar = document.querySelector('.mini-player-progress-bar');
 
-  function generateFakeWaveform() {
-    // Genera un array di valori random per la waveform
-    waveformData = Array.from({length: WAVEFORM_BARS}, () => 8 + Math.random() * 24);
-  }
-
-  function drawWaveform() {
-    const canvas = document.getElementById('waveform-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-    ctx.clearRect(0, 0, width, height);
-    let activeBars = 0;
-    if (audio.duration && !isNaN(audio.duration) && audio.currentTime > 0 && !audio.paused) {
-      activeBars = Math.floor((audio.currentTime / audio.duration) * WAVEFORM_BARS);
+  function updateMiniPlayer() {
+    if (!miniPlayer || !miniPlayerCover || !miniPlayerTitle || !miniPlayerPlayBtn) return;
+    
+    const traccia = tracce[current];
+    miniPlayerCover.src = traccia.cover ? traccia.cover : defaultCover;
+    miniPlayerTitle.textContent = traccia.titolo;
+    
+    // Aggiorna l'icona play/pause
+    const playIcon = miniPlayerPlayBtn.querySelector('i');
+    if (playIcon) {
+      playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
     }
-    for (let i = 0; i < WAVEFORM_BARS; i++) {
-      const barHeight = waveformData[i];
-      const x = (i + 0.5) * (width / WAVEFORM_BARS);
-      ctx.beginPath();
-      ctx.moveTo(x, height / 2 - barHeight / 2);
-      ctx.lineTo(x, height / 2 + barHeight / 2);
-      ctx.strokeStyle = i <= activeBars ? '#FFD700' : '#444';
-      ctx.lineWidth = 3;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-    }
+    
+    // Mostra il mini player
+    miniPlayer.classList.add('active');
+    
+    // Aggiorna anche il progresso
+    updateMiniPlayerProgress();
   }
 
-  let waveformAnimationId = null;
-  function startWaveform() {
-    function animate() {
-      drawWaveform();
-      waveformAnimationId = requestAnimationFrame(animate);
+  function updateMiniPlayerProgress() {
+    if (!miniPlayerProgressFill || !miniPlayerCurrentTime || !miniPlayerDuration) return;
+    
+    if (!audio.duration || isNaN(audio.duration)) {
+      miniPlayerProgressFill.style.width = '0%';
+      miniPlayerCurrentTime.textContent = '0:00';
+      miniPlayerDuration.textContent = '0:00';
+      return;
     }
-    animate();
-  }
-  function stopWaveform() {
-    if (waveformAnimationId) {
-      cancelAnimationFrame(waveformAnimationId);
-      waveformAnimationId = null;
-    }
-    const canvas = document.getElementById('waveform-canvas');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    
+    const progress = Math.min(100, Math.max(0, (audio.currentTime / audio.duration) * 100));
+    miniPlayerProgressFill.style.width = progress + '%';
+    
+    // Aggiorna i tempi
+    miniPlayerCurrentTime.textContent = formatTime(audio.currentTime);
+    miniPlayerDuration.textContent = formatTime(audio.duration);
   }
 
-  function getWaveformHTML() {
-    return `
-      <div style="width: 90%; max-width: 220px; margin: 0 auto;">
-        <canvas id="waveform-canvas" width="220" height="40" style="width: 100%; height: 40px; background: transparent; border-radius: 8px;"></canvas>
-      </div>
-    `;
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds === Infinity || seconds === -Infinity) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
+
+  // Rimuovo la funzione waveform - non più necessaria
+  // function getWaveformHTML() {
+  //   return `
+  //     <div style="width: 90%; max-width: 220px; margin: 0 auto;">
+  //       <canvas id="waveform-canvas" width="220" height="40" style="width: 100%; height: 40px; background: transparent; border-radius: 8px;"></canvas>
+  //     </div>
+  //   `;
+  // }
 
   function getCardHTML(idx, type, isActive, isPlayingNow, hidden = false) {
     const traccia = tracce[idx];
@@ -706,7 +719,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="text-xl font-bold text-accent-color mb-4">${traccia.titolo}</div>
         <button class="play-pause-btn" data-idx="${idx}" style="background: none; border: none; outline: none; cursor: pointer;">${getPlayPauseIcon(isActive && isPlayingNow)}</button>
-        ${isActive ? getWaveformHTML() : ''}
       </div>
     `;
   }
@@ -768,7 +780,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="text-xl font-bold text-accent-color mb-4 board-fade"></div>
         <button class="play-pause-btn board-fade" style="background: none; border: none; outline: none; cursor: pointer;"></button>
-        <div class="waveform-placeholder board-fade"></div>
       </div>
     `;
     aggiornaContenutoCard(container, idx, isActive, false);
@@ -779,7 +790,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const img = container.querySelector('img');
     const titolo = container.querySelector('.text-xl');
     const btn = container.querySelector('.play-pause-btn');
-    const waveform = container.querySelector('.waveform-placeholder');
     if (img) {
       img.src = traccia.cover ? traccia.cover : defaultCover;
       img.alt = 'Copertina ' + traccia.titolo;
@@ -809,16 +819,6 @@ document.addEventListener('DOMContentLoaded', function() {
         else svg.classList.remove('board-hidden');
       }
     }
-    if (waveform) waveform.innerHTML = isActive ? getWaveformHTML() : '';
-    // Applica la classe board-fade anche al waveform SVG
-    if (waveform) {
-      const svg = waveform.querySelector('svg');
-      if (svg) {
-        svg.classList.add('board-fade');
-        if (hidden) svg.classList.add('board-hidden');
-        else svg.classList.remove('board-hidden');
-      }
-    }
     // Applica/rimuovi la classe board-hidden a TUTTI gli elementi .board-fade
     container.querySelectorAll('.board-fade').forEach(el => {
       if (hidden) el.classList.add('board-hidden');
@@ -839,18 +839,11 @@ document.addEventListener('DOMContentLoaded', function() {
     btnNext.onclick();
   });
 
-  // Aggiorna tutte le card (usato per waveform, play/pause, ecc.)
+  // Aggiorna tutte le card (usato per play/pause, ecc.)
   function aggiornaCards(forceHidden = false) {
     aggiornaContenutoCard(cardLeft, getIndex(-1), false, forceHidden);
     aggiornaContenutoCard(cardCenter, getIndex(0), true, forceHidden);
     aggiornaContenutoCard(cardRight, getIndex(1), false, forceHidden);
-    waveformData = waveforms[getIndex(0)];
-    if (isPlaying) {
-      startWaveform();
-    } else {
-      stopWaveform();
-    }
-    setTimeout(drawWaveform, 100);
     // Applica la visibilità a tutti gli elementi
     setAllBoardsHidden(forceHidden);
   }
@@ -870,6 +863,7 @@ document.addEventListener('DOMContentLoaded', function() {
           setAllBoardsHidden(false); // fade-in
         }, 80);
       });
+      updateMiniPlayer();
     }, 350);
   }
 
@@ -878,35 +872,36 @@ document.addEventListener('DOMContentLoaded', function() {
       audio.src = tracce[idx].file;
       audio.currentTime = 0;
     }
-    // waveformData = waveforms[idx]; // già aggiornata in aggiornaCards
     audio.play();
     isPlaying = true;
     aggiornaCards();
+    updateMiniPlayer();
   }
 
   function pauseAudio(idx) {
     audio.pause();
     isPlaying = false;
     aggiornaCards();
+    updateMiniPlayer();
   }
 
   audio.addEventListener('ended', function() {
     isPlaying = false;
     aggiornaCards();
-    stopWaveform();
+    updateMiniPlayer();
   });
   audio.addEventListener('pause', function() {
     isPlaying = false;
     aggiornaCards();
-    stopWaveform();
+    updateMiniPlayer();
   });
   audio.addEventListener('play', function() {
     isPlaying = true;
     aggiornaCards();
-    startWaveform();
+    updateMiniPlayer();
   });
   audio.addEventListener('timeupdate', function() {
-    drawWaveform();
+    updateMiniPlayerProgress();
   });
 
   function blurAllBoards() {
@@ -941,6 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isPlaying = false;
       audio.pause();
       audio.currentTime = 0;
+      updateMiniPlayer();
     }, 350);
   };
   btnNext.onclick = function() {
@@ -961,6 +957,7 @@ document.addEventListener('DOMContentLoaded', function() {
       isPlaying = false;
       audio.pause();
       audio.currentTime = 0;
+      updateMiniPlayer();
     }, 350);
   };
 
@@ -971,6 +968,77 @@ document.addEventListener('DOMContentLoaded', function() {
         if (hidden) el.classList.add('board-hidden');
         else el.classList.remove('board-hidden');
       });
+    });
+  }
+
+  // Event listeners per il mini player
+  if (miniPlayerPlayBtn) {
+    miniPlayerPlayBtn.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseAudio(current);
+      } else {
+        playAudio(current);
+      }
+    });
+  }
+
+  if (miniPlayerPrevBtn) {
+    miniPlayerPrevBtn.addEventListener('click', function() {
+      setAllBoardsHidden(true);
+      blurAllBoards();
+      setTimeout(() => {
+        current = (current - 1 + tracce.length) % tracce.length;
+        aggiornaCarousel('left', () => {
+          aggiornaCards(true);
+          unblurAllBoards();
+          setTimeout(() => {
+            [cardLeft, cardCenter, cardRight].forEach(card => {
+              card.querySelectorAll('.board-fade').forEach(el => void el.offsetHeight);
+            });
+            setAllBoardsHidden(false);
+          }, 80);
+        });
+        isPlaying = false;
+        audio.pause();
+        audio.currentTime = 0;
+        updateMiniPlayer();
+      }, 350);
+    });
+  }
+
+  if (miniPlayerNextBtn) {
+    miniPlayerNextBtn.addEventListener('click', function() {
+      setAllBoardsHidden(true);
+      blurAllBoards();
+      setTimeout(() => {
+        current = (current + 1) % tracce.length;
+        aggiornaCarousel('right', () => {
+          aggiornaCards(true);
+          unblurAllBoards();
+          setTimeout(() => {
+            [cardLeft, cardCenter, cardRight].forEach(card => {
+              card.querySelectorAll('.board-fade').forEach(el => void el.offsetHeight);
+            });
+            setAllBoardsHidden(false);
+          }, 80);
+        });
+        isPlaying = false;
+        audio.pause();
+        audio.currentTime = 0;
+        updateMiniPlayer();
+      }, 350);
+    });
+  }
+
+  // Click sulla barra di progresso per saltare
+  if (miniPlayerProgressBar) {
+    miniPlayerProgressBar.addEventListener('click', function(e) {
+      if (!audio.duration || isNaN(audio.duration)) return;
+      
+      const rect = this.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = Math.min(1, Math.max(0, clickX / rect.width));
+      audio.currentTime = percentage * audio.duration;
     });
   }
 
