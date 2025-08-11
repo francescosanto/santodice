@@ -6,6 +6,7 @@ const translations = {
         nav: {
             home: "HOME",
             services: "SERVIZI",
+            about: "CHI SONO",
             sound: "IL MIO SOUND",
             projects: "PROGETTI",
             contact: "CONTATTI"
@@ -44,6 +45,11 @@ const translations = {
             },
             book: "Prenota una sessione"
         },
+        about: {
+            title: "CHI SONO",
+            cta: "Contattami",
+            text: "Il mio nome è Francesco Santo e sono un artista, produttore e ingegnere del suono con una grande passione per la musica, che è sempre stata una parte fondamentale della mia vita. Ho iniziato ad avvicinarmi a questo mondo a soli 4 anni, grazie a mia nonna. Poi, a 12 anni, ho iniziato a suonare il pianoforte e a 16 mi sono innamorato della produzione. Ho studiato pianoforte, chitarra e basso a Varese prima di trasferirmi a Bologna.\n\nNel 2022 ho avuto l'opportunità di partecipare a XFactor Italia, un'esperienza che mi ha dato una valutazione positiva di 4/4. L'anno successivo, nel 2023, ho pubblicato il mio primo album, \"Santodice\", che ho interamente composto e prodotto io stesso, un progetto nato dopo la vittoria del concorso IMAIE. L'album è come un diario, dieci \"pagine\" dove ho voluto raccontare le mie esperienze e i miei pensieri tipici della mia età, dalle relazioni alle delusioni, fino alla ricerca di stimoli positivi. \"Santodice\" mescola sonorità estive con richiami al jazz e al blues, con testi che mi hanno aiutato ad affrontare la vita con più serenità. Il primo singolo ad anticipare l'album è stato \"Ubriaco\".\n\nOltre alla musica, ho una solida formazione avendo conseguito una laurea in Fisica all'Università di Bologna nel 2023, con un voto di 98 e un certificato di competenza in Ingegneria Audio, Produzione e Composizione, valido in tutta Europa, che mi ha permesso di unire la mia passione per la musica alla conoscenza tecnica. Le mie competenze spaziano dalla registrazione in studio alla produzione, passando per la gestione di mixer analogici e digitali, fino alla composizione e all'arrangiamento.\n\nOggi compongo, mixo e produco per svariati gruppi musicali, e non vedo l'ora di collaborare anche con te."
+        },
         sound: {
             title: "IL MIO SOUND"
         },
@@ -68,6 +74,7 @@ const translations = {
         nav: {
             home: "HOME",
             services: "SERVICES",
+            about: "ABOUT",
             sound: "MY SOUND",
             projects: "PROJECTS",
             contact: "CONTACT"
@@ -106,6 +113,11 @@ const translations = {
             },
             book: "Book a session"
         },
+        about: {
+            title: "ABOUT ME",
+            cta: "Contact Me",
+            text: "My name is Francesco Santo and I am an artist, producer, and audio engineer with a great passion for music, which has always been a fundamental part of my life. I started getting closer to this world at the age of 4, thanks to my grandmother. Then, at 12, I started playing the piano and at 16 I fell in love with production. I studied piano, guitar, and bass in Varese before moving to Bologna.\n\nIn 2022, I had the opportunity to participate in XFactor Italia, an experience that gave me a positive rating of 4/4. The following year, in 2023, I released my first album, \"Santodice\", which I composed and produced entirely myself, a project born after winning the IMAIE competition. The album is like a diary, ten \"pages\" where I wanted to tell my experiences and my typical thoughts of my age, from relationships to disappointments, up to the search for positive stimuli. \"Santodice\" blends summer sounds with jazz and blues echoes, with texts that helped me face life with more serenity. The first single to anticipate the album was \"Ubriaco\".\n\nIn addition to music, I have a solid formation having obtained a degree in Physics at the University of Bologna in 2023, with a grade of 98 and a certificate of competence in Audio Engineering, Production, and Composition, valid throughout Europe, which allowed me to combine my passion for music with technical knowledge. My skills range from studio recording to production, passing through the management of analog and digital mixers, up to composition and arrangement.\n\nToday I compose, mix, and produce for various musical groups, and I can't wait to collaborate with you."
+        },
         sound: {
             title: "MY SOUND"
         },
@@ -130,6 +142,7 @@ const translations = {
         nav: {
             home: "INICIO",
             services: "SERVICIOS",
+            about: "SOBRE MÍ",
             sound: "MI SONIDO",
             projects: "PROYECTOS",
             contact: "CONTACTO"
@@ -167,6 +180,11 @@ const translations = {
                 support: "Soporte técnico especializado"
             },
             book: "Reserva una sesión"
+        },
+        about: {
+            title: "SOBRE MÍ",
+            cta: "Contáctame",
+            text: "Mi nombre es Francesco Santo y soy un artista, productor y ingeniero del sonido con una gran pasión por la música, que siempre ha sido una parte fundamental de mi vida. A los 4 años, gracias a mi abuela, empecé a acercarme a este mundo. A los 12, empecé a tocar el piano y a los 16 me enamoré de la producción. Estudié piano, guitarra y bajo en Varese antes de trasladarme a Bologna.\n\nEn 2022, tuve la oportunidad de participar en XFactor Italia, una experiencia que me dio una valoración positiva de 4/4. El año siguiente, en 2023, publiqué mi primer álbum, \"Santodice\", que compuse y produje por mi cuenta, un proyecto nacido después de ganar el concurso IMAIE. El álbum es como un diario, diez \"páginas\" donde quería contar mis experiencias y mis pensamientos típicos de mi edad, desde las relaciones hasta las decepciones, hasta la búsqueda de estímulos positivos. \"Santodice\" mezcla sonidos de verano con reminiscencias del jazz y el blues, con textos que me ayudaron a enfrentarme a la vida con más serenidad. El primer sencillo que anticipó el álbum fue \"Ubriaco\".\n\nAdemás de la música, tengo una formación sólida, habiendo obtenido un título en Física en la Universidad de Bologna en 2023, con una nota de 98 y un certificado de competencia en Ingeniería de Audio, Producción y Composición, válido en toda Europa, que me permitió unir mi pasión por la música con conocimientos técnicos. Mis habilidades abarcan de la grabación en estudio a la producción, pasando por la gestión de mezcladores analógicos y digitales, hasta la composición y la armonización.\n\nHoy compongo, mezclo y produzco para varios grupos musicales, y no puedo esperar a colaborar contigo."
         },
         sound: {
             title: "MI SONIDO"
@@ -213,11 +231,14 @@ function changeLanguage(language) {
         }
     });
     
-    // Aggiorna la bandiera e il display
+    // Aggiorna la bandiera e il testo
     updateLanguageDisplay(language);
     
     // Salva la lingua selezionata nel localStorage
     localStorage.setItem('selectedLanguage', language);
+    
+    // Aggiorna la sezione About al cambio lingua
+    renderAboutText(language);
 }
 
 // Funzione per aggiornare la bandiera e il testo
@@ -249,6 +270,50 @@ function updateLanguageDisplay(language) {
     }
 }
 
+// Rendering sezione ABOUT con animazione per paragrafi
+function renderAboutText(language) {
+    const container = document.getElementById('about-text');
+    const aboutSection = document.getElementById('chi-sono');
+    if (!container || !aboutSection) return;
+
+    const lang = translations[language] ? language : 'it';
+    const text = translations[lang].about.text;
+
+    // Suddivide in paragrafi sulle doppie nuove righe
+    const paragraphs = text.split(/\n\n+/);
+    container.innerHTML = '';
+
+    // Crea i nodi paragrafo
+    const nodes = paragraphs.map((p, idx) => {
+        const el = document.createElement('p');
+        el.className = 'about-paragraph';
+        el.textContent = p;
+        el.style.animationDelay = `${idx * 400}ms`;
+        return el;
+    });
+    nodes.forEach(n => container.appendChild(n));
+
+    // Trigger animazioni quando la sezione entra in viewport
+    const wrapper = container.closest('.about-content') || container;
+    function inView(el) {
+        const r = aboutSection.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.85 && r.bottom > window.innerHeight * 0.15;
+    }
+    function startIfVisible() {
+        if (inView(aboutSection)) {
+            wrapper.classList.add('animate');
+            window.removeEventListener('scroll', startIfVisible);
+        }
+    }
+    window.addEventListener('scroll', startIfVisible, { passive: true });
+    // reset stato e riavvio animazione
+    wrapper.classList.remove('animate');
+    // forza reflow per riapplicare le animazioni in caso di cambio lingua
+    // eslint-disable-next-line no-unused-expressions
+    void wrapper.offsetHeight;
+    startIfVisible();
+}
+
 // Inizializzazione del sistema di traduzioni
 document.addEventListener('DOMContentLoaded', function() {
     const languageDropdown = document.querySelector('.language-dropdown');
@@ -260,6 +325,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Applica la lingua iniziale
     changeLanguage(savedLanguage);
+    
+    // Inizializza la sezione About
+    renderAboutText(savedLanguage);
     
     // Event listener per aprire/chiudere il dropdown
     languageCurrent.addEventListener('click', function(e) {
